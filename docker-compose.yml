@@ -9,3 +9,9 @@ services:
       MYSQL_DATABASE: test
     ports:
       - "3306:3306"
+    volumes:
+      - nestJS_DB:/var/lib/mysql
+
+volumes:
+  nestJS_DB:
+
