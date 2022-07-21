@@ -7,11 +7,11 @@ import { PostsModule } from './modules/posts/posts.module';
   imports: [
     SequelizeModule.forRoot({
       dialect: 'mysql',
-      host: 'localhost',
+      host: process.env.DB_HOST||'localhost',
       port: 3306,
-      username: 'root',
-      password: 'root',
-      database: 'test',
+      username: process.env.DB_USER||'root',
+      password: process.env.DB_PASSWORD||'root',
+      database: process.env.DB_DATABASE||'test',
       autoLoadModels: true,
       synchronize: true
     }),
