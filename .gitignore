@@ -19,3 +19,9 @@ npm-debug.log
 
 # dist
 /dist
+
+test_sequelize
+test.js
+test2.js
+nest_dip.yml
+pod.yaml
