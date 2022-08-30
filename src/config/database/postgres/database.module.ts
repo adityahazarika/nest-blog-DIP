@@ -1,7 +1,9 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module, OnApplicationShutdown } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Pool } from 'pg';
 import { DatabaseService } from './database.service';
+import { TYPES } from '../../../common/enums/types'; 
+import { ModuleRef } from '@nestjs/core';
 
 const databasePoolFactory = async (configService: ConfigService) => {
     const pool = new Pool({
@@ -30,12 +32,25 @@ const databasePoolFactory = async (configService: ConfigService) => {
 @Module({
     providers: [
         {
-            provide: 'DATABASE_POOL',
+            provide: TYPES.DATABASE_POOL,
             inject: [ConfigService],
             useFactory: databasePoolFactory,
           },
-          DatabaseService,
+          {
+            provide: TYPES.DATABASE_SERVICE,
+            useClass: DatabaseService,
+          }
     ],
-    exports: [DatabaseService],
+    exports: [TYPES.DATABASE_SERVICE],
 })
-export class DatabaseModule {}
+export class DatabaseModule implements OnApplicationShutdown {
+  private readonly logger = new Logger(DatabaseModule.name);
+
+  constructor(private readonly moduleRef: ModuleRef) {}
+
+  onApplicationShutdown(signal?: string): any {
+    this.logger.log(`Shutting down on signal ${signal}`);
+    const pool = this.moduleRef.get(TYPES.DATABASE_POOL) as Pool;
+    return pool.end();
+  }
+}
