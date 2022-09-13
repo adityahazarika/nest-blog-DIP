@@ -3,7 +3,6 @@ import { BaseRepositoryService } from '../base/base.repository.service';
 import {TYPES} from '../../common/enums/types'
 @Injectable()
 export class UserRepositoryService {
-  private readonly logger = new Logger(UserRepositoryService.name);
 
   constructor(@Inject(TYPES.BASE_REPOSITORY_SERVICE) private baseRepositoryService: BaseRepositoryService) {}
 
