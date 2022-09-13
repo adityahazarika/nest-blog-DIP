@@ -1,7 +1,6 @@
 import { Logger, Module, OnApplicationShutdown } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Pool } from 'pg';
-import { DatabaseService } from './database.service';
 import { TYPES } from '../../common/enums/types'; 
 import { ModuleRef } from '@nestjs/core';
 
@@ -35,10 +34,6 @@ const databasePoolFactory = async (configService: ConfigService) => {
             provide: TYPES.DATABASE_POOL,
             inject: [ConfigService],
             useFactory: databasePoolFactory,
-          },
-          {
-            provide: TYPES.DATABASE_SERVICE,
-            useClass: DatabaseService,
           }
     ],
     exports: [TYPES.DATABASE_POOL],
