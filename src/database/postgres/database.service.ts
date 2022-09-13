@@ -1,6 +1,6 @@
 import { Logger, Injectable, Inject } from '@nestjs/common';
 import { Pool, QueryResult } from 'pg';
-import {TYPES} from '../../../common/enums/types'
+import {TYPES} from '../../common/enums/types'
 @Injectable()
 export class DatabaseService {
   private readonly logger = new Logger(DatabaseService.name);

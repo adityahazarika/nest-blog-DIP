@@ -1,11 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { DatabaseService } from '../config/database/postgres/database.service';
+import { UserRepositoryService } from '../repositories/userRepository/user.repository.service';
 import {TYPES} from '../common/enums/types'
 @Injectable()
 export class CatsService {
-  constructor(@Inject(TYPES.DATABASE_SERVICE) private databaseService: DatabaseService) {}
+  constructor(@Inject(TYPES.USER_REPOSITORY_SERVICE) private userRepositoryService: UserRepositoryService) {}
 
-  async findAll(): Promise<any[]> {
-    return this.databaseService.executeQuery('SELECT * FROM users WHERE id = $1', [1])
+  async findById(id): Promise<any[]> {
+    return this.userRepositoryService.findById([id])
+  }
+
+  async insert(): Promise<any[]> {
+    return this.userRepositoryService.insert()
   }
 }
